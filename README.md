@@ -31,6 +31,8 @@
 
 | | |
 |---|---|
+| 구성 | 개인 프로젝트 · ALEPH 무료 AI 챌린지 T04 |
+| 기간 | 2026.08.28 – 2026.08.29 |
 | 원천 | **mcstatus.io** — `mc.hypixel.net` 현재 접속자 수 (인증 키 불필요) |
 | 교차 확인 | mcsrvstat.us (화면 표시만, 저장하지 않음) |
 | 기준 시간대 | `Asia/Seoul` |
@@ -124,7 +126,7 @@ src/lib/replay.ts    replay adapter (합성 fixture 전송 계층 흉내)
 src/lib/store.ts     Supabase 저장 계층 + 쓰기 판정
 scripts/verify-fixtures.ts   fixture 9종 + 저장 판정 자동 대조기
 supabase/schema.sql  DB 스키마 (유니크 제약으로 하루 한 줄 강제)
-public/fixtures/     공개 꾸러미 fixture 원본 사본 (심사자 대조용)
+public/fixtures/     과정 제공 fixture 원본 사본 (해시 대조용)
 ```
 
 </details>
@@ -160,7 +162,7 @@ Supabase에서 `supabase/schema.sql`을 한 번 실행해 두 테이블을 만�
 <details>
 <summary><b>기록 보호 장치</b></summary>
 
-제출 근거는 서로 다른 실제 KST 날짜 **2건**이고, 봉인된 영수증 payload는 앱 저장값과 같아야 합니다 (T04-C22·C23).
+과제 제출 근거는 서로 다른 실제 KST 날짜 **2건**의 기록이었고, 제출한 값과 앱 저장값이 같아야 했습니다.
 그런데 결과물 URL은 무로그인 공개라 누구든 조회 버튼을 누를 수 있고, 원천 값은 60초마다 바뀝니다.
 그래서 저장 경로에 두 가지 제동을 두었습니다.
 
@@ -171,7 +173,7 @@ Supabase에서 `supabase/schema.sql`을 한 번 실행해 두 테이블을 만�
 | `RECORD_LOCKED=true` | `locked` — 일별 행을 아예 쓰지 않음 | 「기록 잠금」 |
 
 기록은 기본적으로 **매일 계속 쌓입니다.** 화면의 어제 대비는 언제나 최신 두 날짜로 계산하므로,
-증빙 2건도 마지막 이틀에 하나씩 남기고 두 번째 직후 `RECORD_LOCKED=true`로 저장을 멈추면 재계산값이 맞습니다.
+제출용 2건도 마지막 이틀에 하나씩 남기고 두 번째 직후 `RECORD_LOCKED=true`로 저장을 멈추면 재계산값이 맞습니다.
 
 두 경우 모두 **조회 자체는 실제로 실행**되고 원자료도 그대로 보여 줍니다. 저장값만 고정됩니다.
 판정 로직은 `storeDecision()` 순수 함수이며 `npm run verify` 6번 항목이 다섯 갈래를 전부 시험합니다.
@@ -212,7 +214,7 @@ git log -p | grep -Ei "service_role|api[_-]?key|secret"   # 0건이어야 함
 <details>
 <summary><b>fixture 계약</b></summary>
 
-이 저장소의 `public/fixtures/*.json`은 공개 꾸러미 `aleph-t04-real-information-board-public-contract-v2`의 파일과
+이 저장소의 `public/fixtures/*.json`은 과정에서 제공한 꾸러미 `aleph-t04-real-information-board-public-contract-v2`의 파일과
 **바이트 단위로 같습니다** (`npm run verify` 0번 항목이 해시로 대조합니다).
 
 `T04-AUTH-401`의 auth는 **외부 원천의 401 거절**을 뜻하며, 이 앱에 로그인을 붙인다는 뜻이 아닙니다.
